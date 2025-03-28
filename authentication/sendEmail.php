@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $password = htmlspecialchars(trim($_POST['password']));
     $email = htmlspecialchars(trim($_POST['email']));
     // select from the DB
-    $sql_select = "SELECT * FROM customers WHERE email= ?";
+    $sql_select = "SELECT * FROM users WHERE email= ?";
     $stmt = mysqli_prepare($conn, $sql_select);
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
