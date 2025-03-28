@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $password = htmlspecialchars(trim($_POST['password']));
     $email = htmlspecialchars(trim($_POST['email']));
     // select from the DB
-    $sql_select = "SELECT * FROM users WHERE email= ?";
+    $sql_select = "SELECT * FROM customers WHERE email= ?";
     $stmt = mysqli_prepare($conn, $sql_select);
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
@@ -44,11 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         if (!mysqli_stmt_execute($stmt_update)) {
             die('DB error:' . mysqli_error($conn));
         }
-
-
-
-
-
         //verification link..
         $verification_link = "http://localhost/Project1_/authentication/verify.php?email=" . urlencode($email) . "&token=" . $token;
         // password Verification.
