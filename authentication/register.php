@@ -1,5 +1,6 @@
 <?php
  //insert users into the system
+
  require('../db/conn.php');
  if ($_SERVER['REQUEST_METHOD'] === "POST") {
      $email = htmlspecialchars(trim($_POST['email']));
@@ -7,16 +8,16 @@
      $role = htmlspecialchars(trim($_POST['role']));
      $password = htmlspecialchars(trim($_POST['password']));
      $confirmpassword = htmlspecialchars(trim($_POST['confirmpassword']));
-     $address = htmlspecialchars(trim($_POST['address']));
+
      $phone = htmlspecialchars(trim($_POST['phone']));
      $hashedpassword = password_hash($password, PASSWORD_BCRYPT);
      $token = md5(uniqid(rand(), true));
-     $insertQuery = "INSERT INTO users (email,password,role,phone,address,name,is_verified,token) VALUES (?,?,?,?,?,?,0,?)";
+     $insertQuery = "INSERT INTO customers (email,password,role,phone,name,is_verified,token) VALUES (?,?,?,?,?,?,0,?)";
      // Prepare the statement
      $result = mysqli_prepare($conn, $insertQuery);
      if ($result) {
          // Bind the parameters to the prepared statement
-         mysqli_stmt_bind_param($result, "sssssss", $email, $hashedpassword, $role, $phone, $address, $name, $token);
+         mysqli_stmt_bind_param($result, "ssssss", $email, $hashedpassword, $role, $phone, $address, $name, $token);
          // Execute the statement
          if (mysqli_stmt_execute($result)) {
              echo "<script>alert('Registered successfully!');
@@ -41,18 +42,12 @@
  
  <body class="d-flex justify-content-center">
      <!-- Admin_login -->
-     <form action="#" method="POST" class="col-sm-4 p-5 d-flex flex-column" style="height: fit-content;">
+     <form action="#" method="POST" class="col-sm-4 p-5 d-flex flex-column gap-2" style="height: fit-content;">
          <h2 class="text-center fw-bold">ITUZE</h2>
          <h3 class="text-center">Register Here</h3>
          <label for="name" class="input-label">Name:</label>
          <input type="text" class="form-control" name="name">
-         <label for="role">Select Role</label>
-         <select name="role" id="" class="form-control">
-             <option value="" disabled selected></option>
-             <option value="admin">Admin</option>
-             <option value="staff">Staff</option>
-             <option value="customer">customer</option>
-         </select>
+         
          <label for="password">Password</label>
          <div class=" d-flex align-items-center">
              <input type="password" class="form-control" name="password" id="passwordField">
@@ -72,9 +67,7 @@
          <input type="number" class="form-control" name="phone">
          <label for="Email">Email</label>
          <input type="text" class="form-control" name="email">
-         <label for="address">Address:</label>
-         <textarea name="address"></textarea>
-         <button class="btn bg-dark text-light" style="align-self: center;"> Register</button>
+         <button class="btn bg-dark text-light">Register</button>
          <span>already have an account?<a href="./login.php"> Login_here </a></span>
      </form>
      <style>
