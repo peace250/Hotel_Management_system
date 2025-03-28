@@ -24,11 +24,8 @@
 
 # 📖 [ Hotel & Airbnb Management System] <a name="about-project"></a>
 A comprehensive Hotel & Airbnb Management System designed to streamline reservations, guest check-ins, and property management.This system enables hotel owners and Airbnb hosts to efficiently manage bookings, payments, and customer experiences
-
 ## 🛠 Built With  <a name="built-with"></a>
-
 ### Tech Stack <a name="tech-stack"></a>
-
 <details>
   <summary>Client</summary>
   <ul>
@@ -66,7 +63,7 @@ A comprehensive Hotel & Airbnb Management System designed to streamline reservat
 
 
 ## 🚀 Live Demo <a name="live-demo"></a>
-- Click to see [Demo](https://maths-magicians-xrpl.onrender.com)
+- Click to see [Demo] // to be worked on.
 
 ## 💻 Getting Started <a name="getting-started"></a>
 ### Prerequisites
@@ -78,7 +75,6 @@ In order to run this project you need to have the following:
 - A code editor (preferably VSCode)
 - A browser
 - XAMPP (to run php files locally)
-
 
 ### Setup
 
