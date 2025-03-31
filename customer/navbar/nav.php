@@ -8,10 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <nav class="navbar-expand navbar d-flex align-items-center justify-content-between p-2  w-100 fixed-top " style="background-color: #031c3f;"> 
+    <nav class="navbar-expand navbar d-flex align-items-center justify-content-between p-2  w-100 fixed-top" style="background-color: #031c3f; height:5rem"> 
 <div class="div"><a href="../guest/index.php" class="navbar-brand fw-bold p-1 text-light">ITUZE_HOTEL</a></div>
   
-<form action="#" class="col-sm-5">
+<form action="#" class="col-sm-4">
  
 <div class="input_container d-flex" style="height: 30px;">
 <input type="text" class="form-control w-100 border-none" placeholder="search .." style="border-radius: 0px;">
