@@ -1,0 +1,42 @@
+
+
+<!-- footer -->
+
+    <div class="row mt-5">
+
+        <footer class="footer bg-white p-3" style=" box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);">
+            <h1 class="text-center">Want To Reach Us?</h1>
+            <div class="links d-flex justify-content-around p-5">
+                <div class="group1">
+                    <ul class="list-unstyled">
+                        <li> <a href="" class="">About</a></li>
+                        <li> <a href="" class="">book</a></li>
+                        <li> <a href="" class="">About</a></li>
+                    </ul>
+                </div>
+                <div class="group2">
+                    <ul class="list-unstyled">
+                        <li> <a href="" class="">About</a></li>
+                        <li> <a href="" class="">book</a></li>
+                        <li> <a href="" class="">About</a></li>
+                    </ul>
+                </div>
+                <div class="group3">
+                    <ul class="list-unstyled">
+                        <li> <a href="" class="">About</a></li>
+                        <li> <a href="" class="">book</a></li>
+                        <li> <a href="" class="">About</a></li>
+                    </ul>
+                </div>
+                <div class="group4">
+                    <ul class="list-unstyled">
+                        <li> <a href="" class="">About</a></li>
+                        <li> <a href="" class="">book</a></li>
+                        <li> <a href="" class="">About</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h5 class="text-center">All rights reserved&copy; 2025</h5>
+        </footer>
+    </div>
