@@ -14,11 +14,11 @@
 <div class="container-fluid h-100">
     <div class="row border border-danger gap-5 ">
     <div class="col-sm-2  border border-primary">
-        <?php require('../navbar/nav.php') ?>
+        <?php require('../navbar/sidenav.php') ?>
     </div>
     <div class="col-sm-9 border border-success ms-auto">
         <div class="header">
-            <?php require('../navbar/main_nav.php')?>
+            <?php require('../navbar/nav.php')?>
         </div>
 <div class="table">
 
