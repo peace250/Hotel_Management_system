@@ -13,12 +13,29 @@
       <li class="nav-item">
         <a class="nav-link" href="../dashboard/index.php">Dashboard</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark text-capitalize active" aria-current="page" href="../properties/property.php">Hotel_rooms</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark text-capitalize active" aria-current="page" href="../air_bnb/airbnbproperty.php">Airbnb</a>
-      </li>
+
+
+
+
+
+      <li class="nav-item dropdown me-auto">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+        Properties</a>
+        <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../properties/property.php">Hotel</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="../air_bnb/airbnbproperty.php">Airbnb</a></li>
+                    </ul>
+    </li>
+    <style>
+        /* Optional: Make dropdown open on hover */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+
+
+
       <li class="nav-item">
         <a class="nav-link text-dark text-capitalize" href="#">reviews</a>
       </li>
@@ -39,10 +56,7 @@
       <ul class="dropdown-menu list-unstyled">
         <li><a class="dropdown-item" href="#">profile</a></li>
         <li><a class="dropdown-item" href="#">Separated link</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item" href="#">Logout</a></li>
+        
       </ul>
     </li>
 
