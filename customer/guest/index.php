@@ -71,32 +71,75 @@
     <h1 class="p-3 fw-bold text-center" style="color:#031c3f">Hotel_services</h1>
     <hr>
     <div class="row d-flex flex-row p-5 ">';
+    
     <?php
     // Query to fetch from the properties table 
     $sql =  "SELECT * FROM hotel_rooms";
     $select_query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($select_query) > 0) {
-        while ($fetch = mysqli_fetch_assoc($select_query)) {
-
+        while ($fetch = mysqli_fetch_assoc($select_query)){
             echo '<div class="col-md-4 mb-4">';
-            echo ' <div class="card hotel-card" data-bs-toggle="modal" data-bs-target="#hotelModal">';
+            echo ' <div class="card hotel-card" >';
             echo ' <div class="position-relative">';
             echo '        <img src="../' . htmlspecialchars($fetch['image']) . '" alt="Property Image" class="card-img-top" alt="Hotel Image">';
             echo '<div class="price-tag">$ ' . $fetch['price'] . ' /night</div>';
             echo '</div>';
             echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $fetch['name'] . '</h5>';
+            echo '<h5 class="card-title">'.$fetch['name'].'</h5>';
             echo '<p class="card-text"><i class="bi bi-geo-alt"></i> New York, USA</p>';
             echo '<p class="card-text text-warning">⭐⭐⭐⭐☆ (4.5/5)</p>';
-            echo ' <button class="btn btn-primary w-100">View More</button>';
+           
+            echo ' <button class="viewmore btn btn-primary w-100"
+            data-bs-toggle="modal" 
+            data-bs-target="#hotelroomModal"
+            data-id ="'.intval($fetch['id']).'"
+            data-title =" '.htmlspecialchars($fetch['name']).'"
+            data-image ="../'.$fetch['image'].'"
+            data-description =" '.htmlspecialchars($fetch['description']).'"
+            data-price ="'.$fetch['price'].'"
+           >
+            View More';
+            echo '</button>';            
             echo '</div>';
             echo '</div>';
             echo '</div>';
         }
     }
-    
     ?>
+<!-- details model -->
+<div class="modal fade" id="hotelroomModal" tabindex="-1" aria-labelledby="hotelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="../" alt="Hotel Room">
+                    <p class="mt-3" id="modalDescription"></p>
+                    <ul>
+                        <li>🏨 Free Wi-Fi</li>
+                        <li>🍽️ Complimentary Breakfast</li>
+                        <li>🚘 Free Parking</li>
+                        <li>🏊 Swimming Pool</li>
+                    </ul>
+                    <p class="fw-bold">Price:<span class="text-danger" id="modalPrice"> per night</span></p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="bookNow">
+                    Book Now
+                </button>
+ 
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+</div>
 
 <!-- Air bnb properties -->
 
@@ -151,30 +194,7 @@
 
 
 
-<!-- JavaScript to Handle Reviews -->
-<script>
-    document.getElementById('review-form').addEventListener('submit', function(event) {
-        event.preventDefault();
 
-        // Get input values
-        let name = document.getElementById('name').value;
-        let rating = document.getElementById('rating').value;
-        let comment = document.getElementById('comment').value;
-
-        // Create a new review element
-        let reviewCard = document.createElement('div');
-        reviewCard.classList.add('review-card');
-        reviewCard.innerHTML = `<h5>${name}</h5>
-                                <p class="star-rating">${rating}</p>
-                                <p>"${comment}"</p>`;
-
-        // Add the review to the container
-        document.getElementById('reviews-container').appendChild(reviewCard);
-
-        // Clear form fields
-        document.getElementById('review-form').reset();
-    });
-</script>
 
 
 
@@ -256,73 +276,7 @@
 </footer>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Product Cards  -->
-
-    <!-- Hotel Details Modal -->
-     <?php 
-     $sql =  "SELECT * FROM hotel_rooms";
-     $select_query = mysqli_query($conn, $sql);
-     $fetch = mysqli_fetch_assoc($select_query);
-     ?>
-
-
-    <div class="modal fade" id="hotelModal" tabindex="-1" aria-labelledby="hotelModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="hotelModalLabel"><?php echo $fetch['name']?></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img src="../'<?php echo htmlspecialchars($fetch['image'])?>'" alt="Hotel Room">
-                    <p class="mt-3"><?php echo $fetch['description']?></p>
-                    <ul>
-                        <li>🏨 Free Wi-Fi</li>
-                        <li>🍽️ Complimentary Breakfast</li>
-                        <li>🚘 Free Parking</li>
-                        <li>🏊 Swimming Pool</li>
-                    </ul>
-                    <p class="fw-bold">Price: <span class="text-danger">$ <?php echo $fetch['price']?> per night</span></p>
-                </div>
-                <div class="modal-footer">
-                    <a href="../bookings/index.php" class="btn btn-success w-100">Book Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script src="./js/script.js"></script>
 </body>
 
 </html>
