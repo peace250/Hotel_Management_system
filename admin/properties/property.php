@@ -182,38 +182,43 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                         <div class="row ">
                             <?php
 
+echo '<table class="table table-bordered">';
+echo '<thead>';
+echo '<tr>';
+echo '<th>Image</th>';
+echo '<th>Name</th>';
+echo '<th>Price per Night</th>';
+echo '<th>Capacity</th>';
+echo '<th>Status</th>';
+echo '<th>Actions</th>';
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
+
                             $sql_select = "SELECT * FROM hotel_rooms";
                             $sql_run = mysqli_query($conn, $sql_select);
 
                             if (mysqli_num_rows($sql_run) > 0) {
                                 while ($row = mysqli_fetch_assoc($sql_run)) {
-                                    echo '<div class="col-md-4 mb-4">';
-                                    echo '    <div class="card shadow-sm">';
-                                    echo '        <img src="../' . htmlspecialchars($row['image']) . '" class="card-img-top" alt="Property Image" style="height: 200px; object-fit: cover;">';
-                                    echo '        <div class="card-body">';
-                                    echo '            <h5 class="card-title">' . htmlspecialchars($row['name']) . '</h5>';
-                                    echo '            <p class="fw-bold">$' . htmlspecialchars($row['price']) . ' per night</p>';
-                                    echo '            <p class="fw-bold">Capacity: ' . htmlspecialchars($row['capacity']) . ' people</p>';
-                                    echo '            <p>Status: <span class="badge bg-' . ($row['status'] == 'available' ? 'success' : 'warning') . '">' . htmlspecialchars($row['status']) . '</span></p>';
-                                    echo '            <div class="d-flex justify-content-between">';
+                                    echo '<tr>';
+                                    echo '<td><img src="../' . htmlspecialchars($row['image']) . '" alt="Property Image" style="width:100px; height:80px; object-fit:cover;"></td>';
+                                    echo '<td>' . htmlspecialchars($row['name']) . '</td>';
+                                    echo '<td>$' . htmlspecialchars($row['price']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row['capacity']) . ' people</td>';
+                                    echo '<td><span class="badge bg-' . ($row['status'] == 'available' ? 'success' : 'warning') . '">' . htmlspecialchars($row['status']) . '</span></td>';
 
-                                    echo '          <button class="btn btn-warning"name="edit"   data-bs-target="#editpropertyModal" data-bs-toggle="modal"><a href="property.php?id=' . $row['id'] . '">Edit</a></button>  ';
-                                    // echo '<a href="property.php" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editpropertyModal" name="edit" data-id="'.$row['id'].'">Edit</a>';
-                                    
-                                    echo '               ';
-                                    echo '<button class="btn btn-danger" onclick="return confirm(`Are you sure?`)" name = "delete"> <a href="property.php?id='.$row['id'].'" >Delete</a></button>';
-                                    
-                                  
-                                  
-                                  
-                                    echo '            </div>';
-                                    echo '        </div>';
-                                    echo '    </div>';
-                                    echo '</div>';
+echo '<td>
+<button class="btn btn-warning"name="edit"  data-bs-target="#editpropertyModal" data-bs-toggle="modal"><a href="property.php?id=' . $row['id'] . '">Edit</a></button>  
+
+<button class="btn btn-danger" onclick="return confirm(`Are you sure?`)" name = "delete"> <a href="property.php?id='.$row['id'].'" >Delete</a></button>
+
+</td>';
+
+                                }  } else {
+                                    echo '<p class="text-center">No properties found.</p>';
                                 }
-                            } else {
-                                echo '<p class="text-center">No properties found.</p>';
-                            }
+
+                                 
                             ?>
                         </div>
                     </div>
