@@ -13,16 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
     $type = htmlspecialchars(trim($_POST['type']));
     $price = floatval($_POST['price']);
     // Handle the image upload
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES['image']) && $_FILES['image']['error']===UPLOAD_ERR_OK) {
         $imageTmpPath = $_FILES['image']['tmp_name'];
         $imageName = basename($_FILES['image']['name']);
-        $uploadDir = '../uploads'; // Directory to store uploaded images
+        $uploadDir = './uploads/'; // Directory to store uploaded images
         // Ensure the upload directory exists
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+        // if (!is_dir($uploadDir)) {
+        //     mkdir($uploadDir, 0777, true);
+        // }
         $imagePath = $uploadDir . '/' . $imageName; // Full path
-        $dbImagePath = 'uploads/' . $imageName; // Relative path for database storage
+        $dbImagePath = 'uploads/'.$imageName; // Relative path for database storage
         // Move the uploaded file to the target directory
         if (!move_uploaded_file($imageTmpPath, $imagePath)) {
             die("Error uploading the image. Check folder permissions.");
@@ -30,8 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
     } else {
         die("No image uploaded or an error occurred.");
     }
-
-
 
     // Insert data into the database
     $insert_property = "INSERT INTO  hotel_rooms
@@ -55,12 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
 }
 ?>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body style="background-color:#f2f2f2">
     <!-- container  -->
     <div class="container-fluid">
@@ -171,381 +171,358 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#propertyModal">+ Add New Property</button>
                         </div>
 
-<<<<<<< Updated upstream
-echo '<table class="table table-bordered">';
-echo '<thead>';
-echo '<tr>';
-echo '<th>Image</th>';
-echo '<th>Name</th>';
-echo '<th>Price per Night</th>';
-echo '<th>Capacity</th>';
-echo '<th>Status</th>';
-echo '<th>Actions</th>';
-echo '</tr>';
-echo '</thead>';
-echo '<tbody>';
+                        <?php
+                        $sql_select = "SELECT * FROM hotel_rooms";
+                        $sql_run = mysqli_query($conn, $sql_select);
+                        echo '<table class="table table-bordered">';
+                        echo '<thead>';
+                        echo '<tr>';
+                        echo '<th>Image</th>';
+                        echo '<th>Name</th>';
+                        echo '<th>Price per Night</th>';
+                        echo '<th>Capacity</th>';
+                        echo '<th>Status</th>';
+                        echo '<th>Actions</th>';
+                        echo '</tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
 
-=======
-                        <div class="row">
-                            <?php
-                            // Select properties from the database
->>>>>>> Stashed changes
-                            $sql_select = "SELECT * FROM hotel_rooms";
-                            $sql_run = mysqli_query($conn, $sql_select);
+                        if (mysqli_num_rows($sql_run) > 0) {
+                            while ($row = mysqli_fetch_assoc($sql_run)) {
 
-                            if (mysqli_num_rows($sql_run) > 0) {
-                                while ($row = mysqli_fetch_assoc($sql_run)) { ?>
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card shadow-sm">
-
-                                            <img src="../<?php echo htmlspecialchars($row['image']) ?>"
-                                                class="card-img-top"
-                                                alt="Property Image"
-                                                style="height: 200px; object-fit: cover;">
-
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?php echo htmlspecialchars($row['name']) ?></h5>
-                                                <p class="fw-bold">$ <?php echo  htmlspecialchars($row['price']) ?> per night</p>
-                                                <p class="fw-bold">Capacity: <?php echo  htmlspecialchars($row['capacity']) ?> people</p>
-                                                <p>Status:
-                                                    <span class="badge bg-<?php echo ($row['status'] == 'available') ? 'success' : 'warning'; ?>">
-                                                        <?php echo htmlspecialchars($row['status']); ?>
-                                                    </span>
-                                                </p>
-
-                                                <div class="d-flex justify-content-between">
-
-                                                    <!-- edit button area: -->
-                                                    <button class="btn btn-warning edit-btn"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#editpropertyModal"
-                                                        data-id="<?php echo $row['id'] ?>"
-                                                        data-name="<?php echo htmlspecialchars($row['name']); ?>"
-                                                        data-description="<?php echo htmlspecialchars($row['description']); ?>"
-                                                        data-price="<?php echo htmlspecialchars($row['price']); ?>"
-                                                        data-capacity="<?php echo htmlspecialchars($row['capacity']); ?>"
-                                                        data-status="<?php echo htmlspecialchars($row['status']); ?>"
-                                                        data-type="<?php echo htmlspecialchars($row['type']); ?>"
-                                                        data-amenities="<?php echo htmlspecialchars($row['amenities']);?>"
-                                                        data-image="../<?php echo htmlspecialchars($row['image']);?>">
-                                                        Edit
+                                echo '<tr>';
+                                echo '<td><img src="./' . htmlspecialchars($row['image']) . '" alt="Property Image" style="width:100px; height:80px; object-fit:cover;"></td>';
+                                echo '<td>' . htmlspecialchars($row['name']) . '</td>';
+                                echo '<td>$' . htmlspecialchars($row['price']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['capacity']) . ' people</td>';
+                                echo '<td><span class="badge bg-' . ($row['status'] == 'available' ? 'success' : 'warning') . '">' . htmlspecialchars($row['status']) . '</span></td>';
+                                echo '<td>';
+                                echo '
+          <!-- edit button area: -->
+                    <button class="btn btn-warning edit-btn"
+                     data-bs-toggle="modal"
+                     data-bs-target="#editpropertyModal"
+                     data-id="' . $row['id'] . '"
+                     data-name="' . htmlspecialchars($row['name']) . '"
+                     data-description="' . htmlspecialchars($row['description']) . '"
+                     data-price="' . htmlspecialchars($row['price']) . '"
+                     data-capacity="' . htmlspecialchars($row['capacity']) . '"
+                     data-status="' . htmlspecialchars($row['status']) . '"
+                     data-type="' . htmlspecialchars($row['type']) . '"
+                     data-amenities="' . htmlspecialchars($row['amenities']) . '"
+                     data-image="../' . htmlspecialchars($row['image']) . '">
+                     Edit
                                                     </button>
-                                                    <button class="btn btn-danger delete-btn " name="delete"
-                                                        data-id="<?php echo $row['id'] ?>"
-                                                        data-bs-target="#deletepropertyModal"
-                                                        data-bs-toggle="modal">
-                                                        Delete
-                                                    </button>
+        
+        
+                                                
+
+                                                  
+<button class="btn btn-danger delete-btn " name="delete"
+data-id="' . $row['id'] . '"
+data-bs-target="#deletepropertyModal"
+data-bs-toggle="modal">
+Delete
+</button>';
+                            }
+                        } else {
+                            echo '<p class="text-center">No properties found.</p>';
+                        }
+                        ?>
+
+                        <!-- row end -->
+                    </div>
+                    <!-- Update area php codes-->
+                    <?php
+                    if (isset($_POST['edit'])) {
+                        // Get input values
+                        $id = $_POST['id'];
+                        $name = mysqli_real_escape_string($conn, $_POST['name']);
+                        $description = mysqli_real_escape_string($conn, $_POST['description']);
+                        $price = floatval($_POST['price']); // Convert to float
+                        $capacity = intval($_POST['capacity']); // Convert to integer
+                        $status = mysqli_real_escape_string($conn, $_POST['status']);
+                        $type = mysqli_real_escape_string($conn, $_POST['type']);
+
+                        // Handle amenities
+                        $amenities = isset($_POST['amenities']) ? json_encode($_POST['amenities']) : json_encode([]);
+
+                        // Check if a new image is uploaded
+                        if (!empty($_FILES['image']['name'])) {
+                            $targetDir = 'uploads/';
+
+                            $fileName = basename($_FILES["image"]["name"]);
+                            $targetFilePath = $targetDir.$fileName;
+
+                            // Check file type
+                            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+                            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
+                            if (in_array(strtolower($fileType), $allowedTypes)) {
+                               
+                                // if (!is_dir($targetDir)) {
+                                //     mkdir($targetDir, 0755, true);
+                                // }
+
+                                // Move the uploaded file
+                                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+                                    $image = $targetFilePath; // Save new image path
+                                } else {
+                                    echo "<script>alert('Error uploading the image. Please try again later.'); 
+                    window.history.back();</script>";
+                                    exit();
+                                }
+                            } else {
+                                echo "<script>alert('Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.');
+                 window.history.back();</script>";
+                                exit();
+                            }
+                        } else {
+                            // Keep the existing image
+                            if (!empty($_POST['existing_image'])) {
+                                $image = mysqli_real_escape_string($conn, $_POST['existing_image']);
+                            } else {
+                                echo 'No image provided!';
+                            }
+                        }
+
+                        // Prepare the SQL statement
+                        $query = "UPDATE hotel_rooms SET name = ?, description = ?, price = ?, capacity = ?, status = ?, type = ?, amenities = ?, image = ? WHERE id = ?";
+                        $stmt = mysqli_prepare($conn, $query);
+                        mysqli_stmt_bind_param($stmt, "ssdissssi", $name, $description, $price, $capacity, $status, $type, $amenities, $image, $id);
+                        // Execute the query
+                        if (mysqli_stmt_execute($stmt)) {
+                            echo "<script>alert('Property updated successfully!');
+             window.location.href='property.php';</script>";
+                        } else {
+                            echo "<script>alert('Update failed: " . mysqli_stmt_error($stmt) . "');</script>";
+                        }
+                        // Close the statement
+                        mysqli_stmt_close($stmt);
+                    }
+
+                    ?>
+
+
+
+
+
+
+
+
+                    <!-- form modal to edit rooms -->
+                    <div class="modal fade" id="editpropertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header text-center">
+                                    <h5 class="modal-title text-uppercase fw-bold " id="propertyModalLabel" style="width: fit-content; color:#031c3f">Edit Property</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="property.php" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" id="editId">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Room Name</label>
+                                            <input type="text" name="name" class="form-control" id="editName">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea name="description" class="form-control" id="editDescription"></textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Price ($)</label>
+                                            <input type="number" name="price" class="form-control" id="editPrice">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Capacity</label>
+                                            <input type="number" name="capacity" class="form-control" id="editCapacity">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" id="editStatus" name="status">
+                                                <option value="available">Available</option>
+                                                <option value="booked">Booked</option>
+                                                <option value="maintenance">Maintenance</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Type</label>
+                                            <select class="form-control" id="editType" name="type">
+                                                <option value="single">Single</option>
+                                                <option value="double">Double</option>
+                                                <option value="suite">Suite</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label>Amenities</label>
+                                            <div id="editAmenities">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="wifi" id="wifi">
+                                                    <label class="form-check-label" for="wifi">WiFi</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="pool" id="pool">
+                                                    <label class="form-check-label" for="pool">Pool</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="parking" id="parking">
+                                                    <label class="form-check-label" for="parking">Parking</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed">
+                                                    <label class="form-check-label" for="pets_allowed">Pets Allowed</label>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                            <?php }
-                            } else {
-                                echo '<p class="text-center">No properties found.</p>';
-                            }
-                            ?>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
+                                        <!-- Hidden field to store existing image -->
+                                        <input type="hidden" name="existing_image" id="existingImage">
 
 
-        </div>
-    </div>
-    <!-- row end -->
-    </div>
-    <!-- Update area php codes-->
-    <?php
-    if (isset($_POST['edit'])) {
-        // Get input values
-        $id = $_POST['id'];
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $description = mysqli_real_escape_string($conn, $_POST['description']);
-        $price = floatval($_POST['price']); // Convert to float
-        $capacity = intval($_POST['capacity']); // Convert to integer
-        $status = mysqli_real_escape_string($conn, $_POST['status']);
-        $type = mysqli_real_escape_string($conn, $_POST['type']);
-
-        // Handle amenities
-        $amenities = isset($_POST['amenities']) ? json_encode($_POST['amenities']) : json_encode([]);
-
-        // Check if a new image is uploaded
-        if (!empty($_FILES['image']['name'])) {
-            $targetDir = "uploads/";
-            $fileName = basename($_FILES["image"]["name"]);
-            $targetFilePath = $targetDir. $fileName;
-
-            // Check file type
-            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
-            if (in_array(strtolower($fileType), $allowedTypes)) {
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0755, true);
-                }
-                // Move the uploaded file
-                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-                    $image = $targetFilePath; // Save new image path
-                } else {
-                    echo "<script>alert('Error uploading the image. Please try again later.'); 
-                    window.history.back();</script>";
-                    exit();
-                }
-            } else {
-                echo "<script>alert('Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.');
-                 window.history.back();</script>";
-                exit();
-            }
-        } else {
-            // Keep the existing image
-            if (!empty($_POST['existing_image'])) {
-                $image = mysqli_real_escape_string($conn, $_POST['existing_image']);
-            } else {
-               echo 'No image provided!';
-            }
-           
-        }
-
-        // Prepare the SQL statement
-        $query = "UPDATE hotel_rooms SET name = ?, description = ?, price = ?, capacity = ?, status = ?, type = ?, amenities = ?, image = ? WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "ssdissssi", $name, $description, $price, $capacity, $status, $type, $amenities, $image, $id);
-        // Execute the query
-        if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Property updated successfully!');
-             window.location.href='property.php';</script>";
-        } else {
-            echo "<script>alert('Update failed: " . mysqli_stmt_error($stmt) . "');</script>";
-        }
-        // Close the statement
-        mysqli_stmt_close($stmt);
-    }
-
-    ?>
+                                        <div class="mb-3">
+                                            <label class="form-label">Image</label>
+                                            <input type="file" name="image" class="form-control">
+                                            <small class="form-text text-muted">Current Image: <img src="" id="editImage" width="100"></small>
+                                        </div>
 
 
+                                        <div class="d-grid">
+                                            <button type="submit" name="edit" class="btn text-light" style="background-color: #031c3f;">Update Property</button>
+                                        </div>
+                                    </form>
 
-
-
-
-
-
-    <!-- form modal to edit rooms -->
-    <div class="modal fade" id="editpropertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title text-uppercase fw-bold " id="propertyModalLabel" style="width: fit-content; color:#031c3f">Edit Property</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="property.php" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" id="editId">
-
-                        <div class="mb-3">
-                            <label class="form-label">Room Name</label>
-                            <input type="text" name="name" class="form-control" id="editName">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" id="editDescription"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Price ($)</label>
-                            <input type="number" name="price" class="form-control" id="editPrice">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Capacity</label>
-                            <input type="number" name="capacity" class="form-control" id="editCapacity">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="editStatus" name="status">
-                                <option value="available">Available</option>
-                                <option value="booked">Booked</option>
-                                <option value="maintenance">Maintenance</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Type</label>
-                            <select class="form-control" id="editType" name="type">
-                                <option value="single">Single</option>
-                                <option value="double">Double</option>
-                                <option value="suite">Suite</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Amenities</label>
-                            <div id="editAmenities">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="wifi" id="wifi">
-                                    <label class="form-check-label" for="wifi">WiFi</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="pool" id="pool">
-                                    <label class="form-check-label" for="pool">Pool</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="parking" id="parking">
-                                    <label class="form-check-label" for="parking">Parking</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed">
-                                    <label class="form-check-label" for="pets_allowed">Pets Allowed</label>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Hidden field to store existing image -->
-                        <input type="hidden" name="existing_image" id="existingImage">
+                    <!-- delete a room model -->
+                    <?php
+                    // delete section area(php codes)
+                    if (isset($_POST['delete'])) {
+                        $id = intval($_POST['id']);
+                        //retrieve the image path before deleting the record
+                        $select_query = "SELECT image FROM hotel_rooms WHERE id = ? ";
+                        $stmt = mysqli_prepare($conn, $select_query);
+                        mysqli_stmt_bind_param($stmt, "i", $id);
+                        mysqli_stmt_execute($stmt);
+                        // binding image result
+                        mysqli_stmt_bind_result($stmt, $image);
+                        mysqli_stmt_fetch($stmt);
+                        mysqli_stmt_close($stmt);
+                        // delete image from DB
 
+                        if (!empty($image) && file_exists("../" . $image)) {
+                            unlink("../" . $image);
+                        } else {
+                            error_log("file not found:" . $file_path);
+                        }
 
-                        <div class="mb-3">
-                            <label class="form-label">Image</label>
-                            <input type="file" name="image" class="form-control">
-                            <small class="form-text text-muted">Current Image: <img src="" id="editImage" width="100"></small>
-                        </div>
-
-
-                        <div class="d-grid">
-                            <button type="submit" name="edit" class="btn text-light" style="background-color: #031c3f;">Update Property</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- delete a room model -->
-    <?php
-    // delete section area(php codes)
-    if (isset($_POST['delete'])) {
-        $id = intval($_POST['id']);
-        //retrieve the image path before deleting the record
-        $select_query = "SELECT image FROM hotel_rooms WHERE id = ? ";
-        $stmt = mysqli_prepare($conn, $select_query);
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        // binding image result
-        mysqli_stmt_bind_result($stmt, $image);
-        mysqli_stmt_fetch($stmt);
-        mysqli_stmt_close($stmt);
-        // delete image from DB
-
-        if (!empty($image) && file_exists("../" . $image)) {
-            unlink("../" . $image);
-        } else {
-            error_log("file not found:" . $file_path);
-        }
-
-        // delete query
-        $deleteQuery = "DELETE FROM hotel_rooms WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $deleteQuery);
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('property deleted successully');
+                        // delete query
+                        $deleteQuery = "DELETE FROM hotel_rooms WHERE id = ?";
+                        $stmt = mysqli_prepare($conn, $deleteQuery);
+                        mysqli_stmt_bind_param($stmt, "i", $id);
+                        if (mysqli_stmt_execute($stmt)) {
+                            echo "<script>alert('property deleted successully');
     window.location.href = 'property.php';
     </script>";
-            exit();
-        } else {
-            echo "<script>alert('Error deleting property:" . mysqli_error($conn) . "');</script>";
-        }
-    }
+                            exit();
+                        } else {
+                            echo "<script>alert('Error deleting property:" . mysqli_error($conn) . "');</script>";
+                        }
+                    }
 
-    ?>
-    <div class="modal fade" id="deletepropertyModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete property</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    ?>
+                    <div class="modal fade" id="deletepropertyModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Delete property</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 
-                </div>
-                <div class="modal-body text-center">
-                    <b>
-                        <h4>Are you sure you want to delete this property?</h4>
-                    </b>
-                </div>
-                <div class="modal-footer">
-                    <form action="property.php" method="POST" class="d-flex flex-column">
-                        <input type="hidden" name="id" id="deleteId">
-                        <button type="submit" name="delete" class="btn btn-danger" style="align-self: center;">Delete</button>
-                    </form>
-                    <button type="button" class="btn btn-secondary ms-auto" data-bs-dismiss="modal">cancel</button>
-                </div>
-            </div>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <b>
+                                        <h4>Are you sure you want to delete this property?</h4>
+                                    </b>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="property.php" method="POST" class="d-flex flex-column">
+                                        <input type="hidden" name="id" id="deleteId">
+                                        <button type="submit" name="delete" class="btn btn-danger" style="align-self: center;">Delete</button>
+                                    </form>
+                                    <button type="button" class="btn btn-secondary ms-auto" data-bs-dismiss="modal">cancel</button>
+                                </div>
+                            </div>
 
-        </div>
+                        </div>
 
-    </div>
+                    </div>
 
-    <script>
-        // update content
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.edit-btn').forEach(function(button) {
-                button.addEventListener("click", function() {
+                    <script>
+                        // update content
+                        document.addEventListener("DOMContentLoaded", function() {
+                            document.querySelectorAll('.edit-btn').forEach(function(button) {
+                                button.addEventListener("click", function() {
 
-                    let id = this.getAttribute("data-id");
-                    let name = this.getAttribute("data-name");
-                    let description = this.getAttribute("data-description");
-                    let price = this.getAttribute("data-price");
-                    let capacity = this.getAttribute("data-capacity");
-                    let status = this.getAttribute("data-status");
-                    let type = this.getAttribute("data-type");
-                    let amenities = JSON.parse(this.getAttribute("data-amenities") || "[]"); // Parse JSON
-                    let image = this.getAttribute("data-image").trim();
+                                    let id = this.getAttribute("data-id");
+                                    let name = this.getAttribute("data-name");
+                                    let description = this.getAttribute("data-description");
+                                    let price = this.getAttribute("data-price");
+                                    let capacity = this.getAttribute("data-capacity");
+                                    let status = this.getAttribute("data-status");
+                                    let type = this.getAttribute("data-type");
+                                    let amenities = JSON.parse(this.getAttribute("data-amenities") || "[]"); // Parse JSON
+                                    let image = this.getAttribute("data-image").trim();
+                                    document.getElementById("editId").value = id;
+                                    document.getElementById("editName").value = name;
+                                    document.getElementById("editDescription").value = description;
+                                    document.getElementById("editPrice").value = price;
+                                    document.getElementById("editCapacity").value = capacity;
+                                    document.getElementById("editStatus").value = status;
+                                    document.getElementById("editType").value = type;
+                                    document.getElementById("editAmenities").value = amenities;
+                                    document.getElementById("editImage").src = image;
 
-                    document.getElementById("editId").value = id;
-                    document.getElementById("editName").value = name;
-                    document.getElementById("editDescription").value = description;
-                    document.getElementById("editPrice").value = price;
-                    document.getElementById("editCapacity").value = capacity;
-                    document.getElementById("editStatus").value = status;
-                    document.getElementById("editType").value = type;
-                    document.getElementById("editAmenities").value = amenities;
-                    document.getElementById("editImage").src = image;
-                
-                    document.getElementById("existingImage").value = image;
-
-
-                    // Reset and check appropriate amenities
-                    document.querySelectorAll("#editAmenities input[type='checkbox']").forEach(checkbox => {
-                        checkbox.checked = amenities.includes(checkbox.value);
-                    });
+                                    document.getElementById("existingImage").value = image;
 
 
-
-                });
-
-            });
-
-            // delete content 
-            document.querySelectorAll('.delete-btn ').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    console.log("Delete button clicked");
-                    let id = this.getAttribute("data-id");
-                    document.getElementById("deleteId").value = id;
+                                    // Reset and check appropriate amenities
+                                    document.querySelectorAll("#editAmenities input[type='checkbox']").forEach(checkbox => {
+                                        checkbox.checked = amenities.includes(checkbox.value);
+                                    });
 
 
-                });
-            });
 
-        });
-    </script>
+                                });
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                            });
+
+                            // delete content 
+                            document.querySelectorAll('.delete-btn ').forEach(function(button) {
+                                button.addEventListener('click', function() {
+                                    console.log("Delete button clicked");
+                                    let id = this.getAttribute("data-id");
+                                    document.getElementById("deleteId").value = id;
 
 
-    <!-- End of form modal codes -->
+                                });
+                            });
+
+                        });
+                    </script>
+
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+                    <!-- End of form modal codes -->
 </body>
 
 </html>
