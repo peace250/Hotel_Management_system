@@ -194,28 +194,6 @@ echo '<tbody>';
                             $sql_run = mysqli_query($conn, $sql_select);
 
                             if (mysqli_num_rows($sql_run) > 0) {
-<<<<<<< Updated upstream
-                                while ($row = mysqli_fetch_assoc($sql_run)) {
-                                    echo '<tr>';
-                                    echo '<td><img src="../' . htmlspecialchars($row['image']) . '" alt="Property Image" style="width:100px; height:80px; object-fit:cover;"></td>';
-                                    echo '<td>' . htmlspecialchars($row['name']) . '</td>';
-                                    echo '<td>$' . htmlspecialchars($row['price']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row['capacity']) . ' people</td>';
-                                    echo '<td><span class="badge bg-' . ($row['status'] == 'available' ? 'success' : 'warning') . '">' . htmlspecialchars($row['status']) . '</span></td>';
-
-echo '<td>
-<button class="btn btn-warning"name="edit"  data-bs-target="#editpropertyModal" data-bs-toggle="modal"><a href="property.php?id=' . $row['id'] . '">Edit</a></button>  
-
-<button class="btn btn-danger" onclick="return confirm(`Are you sure?`)" name = "delete"> <a href="property.php?id='.$row['id'].'" >Delete</a></button>
-
-</td>';
-
-                                }  } else {
-                                    echo '<p class="text-center">No properties found.</p>';
-                                }
-
-                                 
-=======
                                 while ($row = mysqli_fetch_assoc($sql_run)) { ?>
                                     <div class="col-md-4 mb-4">
                                         <div class="card shadow-sm">
@@ -266,7 +244,6 @@ echo '<td>
                             } else {
                                 echo '<p class="text-center">No properties found.</p>';
                             }
->>>>>>> Stashed changes
                             ?>
                         </div>
                     </div>
