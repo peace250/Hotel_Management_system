@@ -13,26 +13,21 @@
       <li class="nav-item">
         <a class="nav-link" href="../dashboard/index.php">Dashboard</a>
       </li>
-
-
-
-
-
       <li class="nav-item dropdown me-auto">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-        Properties</a>
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+          Properties</a>
         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../properties/property.php">Hotel</a></li>
-                        <hr>
-                        <li><a class="dropdown-item" href="../air_bnb/airbnbproperty.php">Airbnb</a></li>
-                    </ul>
-    </li>
-    <style>
+          <li><a class="dropdown-item" href="../properties/property.php">Hotel</a></li>
+          <hr>
+          <li><a class="dropdown-item" href="../air_bnb/airbnb.php">Airbnb</a></li>
+        </ul>
+      </li>
+      <style>
         /* Optional: Make dropdown open on hover */
         .dropdown:hover .dropdown-menu {
-            display: block;
+          display: block;
         }
-    </style>
+      </style>
 
 
 
@@ -56,7 +51,7 @@
       <ul class="dropdown-menu list-unstyled">
         <li><a class="dropdown-item" href="#">profile</a></li>
         <li><a class="dropdown-item" href="#">Separated link</a></li>
-        
+
       </ul>
     </li>
 
@@ -83,9 +78,5 @@
       border-radius: 10px;
     }
   </style>
-
-
-
 </body>
-
 </html>
