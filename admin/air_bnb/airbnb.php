@@ -12,22 +12,24 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
     $bathrooms = intval($_POST['bathrooms']);
     $guests = intval($_POST['guests']);
     $address = htmlspecialchars($_POST['address']);
+
     // Handle amenities
     $amenitiesArray = isset($_POST['amenities']) && is_array($_POST['amenities']) ? $_POST['amenities'] : [];
     $sanitizedAmenities = array_map('htmlspecialchars', $amenitiesArray);
     $amenitiesJson = json_encode($sanitizedAmenities);
     // Handle the photos upload
     $photos = "";
+
     if (isset($_FILES['photos']) && !empty($_FILES['photos']['name'][0])) {
         $photo_paths = [];
-        $upload_dir = __DIR__ . "/uploads";
+        $upload_dir = __DIR__ .'/'. "uploads";
         foreach ($_FILES['photos']['tmp_name'] as $key => $tmp_name) {
             if (!empty($_FILES['photos']['name'][$key])) {
                 $file_name = basename($_FILES['photos']['name'][$key]);
-                $target_file = $upload_dir . '/' . $file_name;
+                $target_file = $upload_dir.'/'.$file_name;
 
                 if (move_uploaded_file($tmp_name, $target_file)) {
-                    $photo_paths[] = "uploads/" . $file_name;
+                    $photo_paths[] = "uploads". '/'.$file_name;
                 } else {
                     echo "error moving file" . $_FILES['photos']['name'][$key];
                 }
@@ -64,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
 }
 ?>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -206,8 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#airbnbModal">+ Add New Property</button>
                         </div>
 
-
-
                         <!-- Display recordered properties -->
                         <div class="col-sm-12 me-auto  ">
                             <div class="container mt-5 ">
@@ -247,22 +246,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                     <button class="btn btn-warning update-btn" name ="update"
                      data-bs-toggle="modal"
                      data-bs-target="#edit_airbnbModal"
-                     data-id="' . $row['id'] . '"
-                     data-name="' . htmlspecialchars($row['name']) . '"
-                     data-description="' . ($row['description']) . '"
-                     data-price="' . htmlspecialchars($row['price_per_night']) . '"
-                     data-address="' . htmlspecialchars($row['address']) . '"
-                     data-guests="' . htmlspecialchars($row['max_guests']) . '"
-                     data-status="' . htmlspecialchars($row['status']) . '"
-                     data-rooms="' . htmlspecialchars($row['number_of_bedrooms']) . '"
-                     data-bathrooms="' . htmlspecialchars($row['number_of_bathrooms']) . '"
-                     data-type="' . htmlspecialchars($row['property_type']) . '"
-                     data-amenities="' . htmlspecialchars($row['amenities']) . '"
-                     data-photo="../' . htmlspecialchars($first_image) .
-                                            '">
-                     Edit</button>  
+                     data-id="'.$row['id'].'"
+                     data-name="'.htmlspecialchars($row['name']) . '"
+                     data-description="'.htmlspecialchars($row['description']) . '"
+                     data-price="'.htmlspecialchars($row['price_per_night']) . '"
+                     data-address="'.htmlspecialchars($row['address']) . '"
+                     data-guests="'.htmlspecialchars($row['max_guests']) . '"
+                     data-status="'.htmlspecialchars($row['status']) . '"
+                     data-rooms="'.htmlspecialchars($row['number_of_bedrooms']) . '"
+                     data-bathrooms="'.htmlspecialchars($row['number_of_bathrooms']) . '"
+                     data-type="'.htmlspecialchars($row['property_type']) . '"
+                     data-amenities="'.htmlspecialchars($row['amenities']) . '"
+                     data-photo="'.htmlspecialchars($row['photos'], ENT_QUOTES).'">
+                    '.$row['id'].'</button>  
                 <button class="btn btn-danger delete-btn "name="delete"
-                data-id="' . $row['id'] . '"
+                data-id="'. $row['id'] . '"
                 data-bs-target="#deletepropertyModal"
                 data-bs-toggle="modal">
                Delete
@@ -347,9 +345,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                 </div>
                             </div>
                             <!-- Edit the form modal Area(section) -->
-
-                            <!-- Bootstrap Modal -->
-                            <div class="modal fade" id="edit_airbnbModal" tabindex="-1" aria-labelledby="airbnbModalLabel" aria-hidden="true">
+        <!-- Bootstrap Modal -->
+        <div class="modal fade" id="edit_airbnbModal" tabindex="-1" aria-labelledby="airbnbModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -357,8 +354,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="update_propertyForm" method="POST" enctype="multipart/form-data">
-                                                <div class="mb-3">
+                                            <form method="POST" enctype="multipart/form-data" action="airbnb.php">
+                                              
+                                            <input type="hidden" id="updateId" name="update_id">
+
+                                            <div class="mb-3">
                                                     <label for="name" class="form-label">Property Name</label>
                                                     <input type="text" class="form-control" name="name" id="name" required>
                                                 </div>
@@ -410,7 +410,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="house_rules" class="form-label">House Rules</label>
+                                                    <label for="rules" class="form-label">House Rules</label>
                                                     <textarea class="form-control" name="rules" id="rules"></textarea>
                                                 </div>
 
@@ -427,7 +427,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                                     <label for="property_type" class="form-label">Property Type</label>
                                                     <select type="text" class="form-control" name="type" id="type">
                                                         <option value="apartment">Apartment</option>
-                                                        <option value="apartment">House</option>
+                                                        <option value="house">House</option>
                                                     </select>
                                                 </div>
 
@@ -436,28 +436,33 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                                     <input type="number" class="form-control" name="rooms" id="rooms" required min="1">
                                                 </div>
 
+    <input type="hidden" id="existingImg" name="existing_img"> <!-- stores JSON string of existing images -->
+<div class="mb-3">
+  <label class="form-label">Upload New Photo</label>
+  <input type="file" name="photos[]" id="newPhotos" class="form-control" multiple>
+  <small class="form-text text-muted d-block">Current Images:</small>
+  <div id="existingImagePreview" class="d-flex flex-wrap gap-2 mt-2"></div>
 
-                                                <div class="mb-3">
+</div>
 
-                                                    <label class="form-label" id="photoInput">Photo</label>
-                                                    <input type="file" name="photos[]" class="form-control" accept="image/*">
-                                                    <small class="form-text text-muted">Current Image: <img src="" id="photos" width="100">
-                                                    </small>
-                                                    <input type="hidden" name="existingImg" id="existingImage">
-                                                </div>
+                                            
+
                                                 <button type="submit" class="btn btn-success" name="update">Update Property</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                     
                             <!--End of Edit properties modal area -->
                             <!-- update query -->
 
                             <?php
+
                             if (isset($_POST['update'])) {
                                 // Get input values
-                                $id = $_POST['id'];
+                                $id = $_POST['update_id'];
+
                                 $name = htmlspecialchars(trim($_POST['name']));
                                 $description = htmlspecialchars(trim($_POST['description']));
                                 $status = htmlspecialchars(trim($_POST['status']));
@@ -471,53 +476,74 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                                 // Handle amenities
                                 $amenities = isset($_POST['amenities']) ? json_encode($_POST['amenities']) : json_encode([]);
                                 // Check if a new image is uploaded
-                                if (!empty($_FILES['photos']['name'])) {
-                                    $targetDir = 'uploads/';
-                                    $fileName = basename($_FILES["photos"]["name"]);
-                                    $targetFilePath = $targetDir . $fileName;
-
-                                    // Check file type
-                                    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-                                    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
-                                    if (in_array(strtolower($fileType), $allowedTypes)) {
-
-                                        // Move the uploaded file
-                                        if (move_uploaded_file($_FILES["photos"]["tmp_name"], $targetFilePath)) {
-                                            $newphoto = $targetFilePath; // Save new image path
-                                        } else {
-                                            echo "<script>alert('Error uploading the image. Please try again later.'); 
-                                            window.history.back();
-                                            </script>";
-                                            exit();
+                                $photos = [];
+                                $upload_dir = __DIR__ . "/uploads";
+                                
+                                // 1. Delete old images if they exist
+                                if (!empty($_POST['existing_img'])) {
+                                    $existing_photos = json_decode($_POST['existing_img'], true);
+                                    if (is_array($existing_photos)) {
+                                        foreach ($existing_photos as $old_photo) {
+                                            $file_path = __DIR__ . "/" . $old_photo;
+                                            if (file_exists($file_path)) {
+                                                unlink($file_path); // Delete file
+                                            }
                                         }
-                                    } else {
-                                        echo "<script>alert('Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.');
-                                        window.history.back();
-                                        </script>";
-                                        exit();
-                                    }
-                                } else {
-                                    // Keep the existing image
-                                    if (!empty($_POST['existing_image'])) {
-                                        $newphoto = mysqli_real_escape_string($conn, $_POST['existing_image']);
-                                    } else {
-                                        echo 'No image provided!';
                                     }
                                 }
+
+                            
+
+                                
+                                // 2. Upload new images
+                                if (isset($_FILES['photos']) && !empty($_FILES['photos']['name'][0])) {
+                                    foreach ($_FILES['photos']['tmp_name'] as $key => $tmp_name) {
+                                        if (!empty($_FILES['photos']['name'][$key])) {
+                                            $file_name = basename($_FILES['photos']['name'][$key]);
+                                            $target_file = $upload_dir . '/' . $file_name;
+                                
+                                            if (move_uploaded_file($tmp_name, $target_file)) {
+                                                $photos[] = "uploads/" . $file_name;
+                                            } else {
+                                                echo "Failed to upload " . $_FILES['photos']['name'][$key];
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // 3. Convert new image list to JSON for DB
+                                $photosJson = json_encode($photos);
                                 // Prepare the SQL statement
-                                $query = "UPDATE airbnb_properties SET name = ?, description = ?, price_per_night = ?, max_guests = ?, status = ?, type = ?, amenities = ?, photo = ?, house_rules=?, address = ?, number_of_bedrooms= ?, number_of_bathrooms= ? WHERE id = ?";
-                                $stmt = mysqli_prepare($conn, $query);
-                                mysqli_stmt_bind_param($stmt, "ssdissssssiii", $name, $description, $price, $guests, $status, $type, $amenities, $photo, $rules, $rooms, $bathrooms, $id);
-                                // Execute the query
-                                if (mysqli_stmt_execute($stmt)) {
-                                    echo "<script>alert('Property updated successfully!');
-                                   window.location.href='airbnb.php';</script>";
-                                } else {
-                                    echo "<script>alert('Update failed: " . mysqli_stmt_error($stmt)."');</script>";
-                                }
-                                // Close the statement
-                                mysqli_stmt_close($stmt);
+                                $query = "UPDATE airbnb_properties 
+                                SET name = ?, 
+                                    description = ?, 
+                                    price_per_night = ?, 
+                                    max_guests = ?, 
+                                    status = ?, 
+                                    property_type = ?, 
+                                    amenities = ?, 
+                                    photos = ?, 
+                                    house_rules = ?, 
+                                    address = ?, 
+                                    number_of_bedrooms = ?, 
+                                    number_of_bathrooms = ? 
+                                WHERE id = ?";
+                      
+                      $stmt = mysqli_prepare($conn, $query);
+                      
+                      // Make sure all these variables are defined and properly typed
+                      mysqli_stmt_bind_param( $stmt,"ssdissssssiii",$name, $description, $price, $guests, $status, $type,   $amenities, $photosJson, $rules, $address, $rooms, $bathrooms, $id );
+                      
+                      // Execute and handle result
+                      if (mysqli_stmt_execute($stmt)) {
+                          echo "<script>alert('Property updated successfully!');
+                                 window.location.href='airbnb.php';</script>";
+                      } else {
+                          echo "<script>alert('Update failed: " . mysqli_stmt_error($stmt) . "');</script>";
+                      }
+                      
+                      mysqli_stmt_close($stmt);
+                      
                             }
                             ?>
 <script src="./js/script.js"> </script>
