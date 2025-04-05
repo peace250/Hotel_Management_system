@@ -142,6 +142,69 @@
 </div>
 
 <!-- Air bnb properties -->
+ <div class="row text-center">
+<h1 style="text-transform: capitalize;">airbnb_properties</h1>
+<hr>
+ <?php
+
+
+// Query to fetch from the properties table 
+$sql =  "SELECT * FROM airbnb_properties";
+$select_query = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($select_query) > 0) {
+    while ($fetch = mysqli_fetch_assoc($select_query)) {
+        $photos = json_decode($fetch['photos'], true); 
+        
+        // Get the first image for display
+        $first_image = !empty($photos)? htmlspecialchars($photos[0], ENT_QUOTES) : '2.jpg'; 
+        // Display the property image and "View Gallery" button
+        echo '<div class="col-md-4 mb-4 ">';
+        echo ' <div class="card hotel-card">';
+        echo '    <div class="position-relative">';
+        echo '        <img src="../'.$first_image.'" alt="Property Image" class="card-img-top" alt="Airbnb Image">';
+        echo '        <div class="price-tag">$ ' . $fetch['price_per_night'] . ' /night</div>';
+        echo '    </div>';
+        echo '    <div class="card-body">';
+        echo '        <h5 class="card-title">' . htmlspecialchars($fetch['name']) . '</h5>';
+        echo '        <p class="card-text"><i class="bi bi-geo-alt"></i> ' . htmlspecialchars($fetch['address']) . '</p>';
+        echo '        <p class="card-text text-warning">⭐⭐⭐⭐☆ (4.5/5)</p>';
+        echo '        <button class="view-gallery btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#galleryModal" data-property-id="' . $fetch['id'] . '" data-photos="' . htmlspecialchars(json_encode($photos), ENT_QUOTES) . '">View Gallery</button>';
+        echo '    </div>';
+        echo '</div>';
+        echo '</div>';
+    }
+}
+?>
+
+ </div>
+
+
+<!-- modal -->
+<!-- Gallery Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Property Gallery</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Image Gallery will be dynamically inserted here -->
+                <div class="row" id="galleryImages"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+   
+            
+    
 
 
 <h1 class="p-2 text-center" style="color:#031c3f">Reviews</h1>
