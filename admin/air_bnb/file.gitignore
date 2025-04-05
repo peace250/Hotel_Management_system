@@ -1,0 +1,16 @@
+$upload_dir = __DIR__ . "/uploads";
+$photo_paths = [];
+
+if (isset($_FILES['photos']) && !empty($_FILES['photos']['name'][0])) {
+    foreach ($_FILES['photos']['tmp_name'] as $key => $tmp_name) {
+        if (!empty($_FILES['photos']['name'][$key])) {
+            $file_name = basename($_FILES['photos']['name'][$key]);
+            $target_file = $upload_dir . '/' . $file_name;
+
+            if (move_uploaded_file($tmp_name, $target_file)) {
+                $photo_paths[] = "uploads/" . $file_name;
+            } else {
+                echo "Error moving file: " . $_FILES['photos']['name'][$key];
+            }
+        }
+    }
