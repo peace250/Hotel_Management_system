@@ -52,7 +52,6 @@ window.location.href = "../bookings/index.php?id=" + hotelroomId
         document.getElementById('review-form').reset();
     });
 
-    // When the 'View Gallery' button is clicked, populate the modal
 document.querySelectorAll('.view-gallery').forEach(button => {
     button.addEventListener('click', function() {
         // Get the property ID and the images associated with this property
@@ -68,7 +67,7 @@ document.querySelectorAll('.view-gallery').forEach(button => {
         // Loop through the photos and display them in the modal
         photos.forEach(photo => {
             const imgElement = document.createElement('img');
-            imgElement.src = '../' + photo; // Make sure the image path is correct
+            imgElement.src = '../' + photo;
             imgElement.classList.add('col-md-4', 'mb-4');
             imgElement.classList.add('img-fluid');
             imgElement.alt = 'Property Image';
