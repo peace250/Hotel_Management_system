@@ -13,14 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
     $type = htmlspecialchars(trim($_POST['type']));
     $price = floatval($_POST['price']);
     // Handle the image upload
-    if (isset($_FILES['image']) && $_FILES['image']['error']===UPLOAD_ERR_OK) {
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $imageTmpPath = $_FILES['image']['tmp_name'];
         $imageName = basename($_FILES['image']['name']);
         $uploadDir = './uploads/'; // Directory to store uploaded images
-        // Ensure the upload directory exists
-        // if (!is_dir($uploadDir)) {
-        //     mkdir($uploadDir, 0777, true);
-        // }
         $imagePath = $uploadDir . '/' . $imageName; // Full path
         $dbImagePath = 'uploads/'.$imageName; // Relative path for database storage
         // Move the uploaded file to the target directory
@@ -30,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
     } else {
         die("No image uploaded or an error occurred.");
     }
-
     // Insert data into the database
     $insert_property = "INSERT INTO  hotel_rooms
         (name, description,`type`, price, image,capacity,amenities,status) 
@@ -53,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
 }
 ?>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -210,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['add'])) {
                      data-status="' . htmlspecialchars($row['status']) . '"
                      data-type="' . htmlspecialchars($row['type']) . '"
                      data-amenities="' . htmlspecialchars($row['amenities']) . '"
-                     data-image="../' . htmlspecialchars($row['image']) . '">
+                     data-image="'.htmlspecialchars($row['image'],ENT_QUOTES).'">
                      Edit
                                                     </button>
         
@@ -381,18 +375,12 @@ Delete
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Hidden field to store existing image -->
-                                        <input type="hidden" name="existing_image" id="existingImage">
-
-
+                                        <input type="hidden" id="existingImageInput" name="existing_image">
                                         <div class="mb-3">
                                             <label class="form-label">Image</label>
-                                            <input type="file" name="image" class="form-control">
-                                            <small class="form-text text-muted">Current Image: <img src="" id="editImage" width="100"></small>
+                                            <input type="file" name="image" class="form-control" id="editImage">
+                                            <small class="form-text text-muted">Current Image: <img src="" id="existingImage"  name="existing_image" width="100"></small>
                                         </div>
-
-
                                         <div class="d-grid">
                                             <button type="submit" name="edit" class="btn text-light" style="background-color: #031c3f;">Update Property</button>
                                         </div>
@@ -461,18 +449,14 @@ Delete
                                     <button type="button" class="btn btn-secondary ms-auto" data-bs-dismiss="modal">cancel</button>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
 
                   
                        
 
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="./js/script.js"></script>
+                   <script src="./js/script.js"></script>
                     <!-- End of form modal codes -->
 </body>
-
 </html>

@@ -11,7 +11,8 @@
             let status = this.getAttribute("data-status");
             let type = this.getAttribute("data-type");
             let amenities = JSON.parse(this.getAttribute("data-amenities") || "[]"); // Parse JSON
-            let image = this.getAttribute("data-image").trim();
+            let image = this.getAttribute("data-image");
+
             document.getElementById("editId").value = id;
             document.getElementById("editName").value = name;
             document.getElementById("editDescription").value = description;
@@ -20,10 +21,9 @@
             document.getElementById("editStatus").value = status;
             document.getElementById("editType").value = type;
             document.getElementById("editAmenities").value = amenities;
-            document.getElementById("editImage").src = image;
 
-            document.getElementById("existingImage").value = image;
-
+            document.getElementById("existingImage").src = image;
+            document.getElementById("existingImageInput").value = image;
 
             // Reset and check appropriate amenities
             document.querySelectorAll("#editAmenities input[type='checkbox']").forEach(checkbox => {
