@@ -51,3 +51,29 @@ window.location.href = "../bookings/index.php?id=" + hotelroomId
         // Clear form fields
         document.getElementById('review-form').reset();
     });
+
+    // When the 'View Gallery' button is clicked, populate the modal
+document.querySelectorAll('.view-gallery').forEach(button => {
+    button.addEventListener('click', function() {
+        // Get the property ID and the images associated with this property
+        const propertyId = this.getAttribute('data-property-id');
+        const photos = JSON.parse(this.getAttribute('data-photos'));
+
+        // Select the gallery container in the modal
+        const galleryContainer = document.getElementById('galleryImages');
+        
+        // Clear any previous images
+        galleryContainer.innerHTML = '';
+
+        // Loop through the photos and display them in the modal
+        photos.forEach(photo => {
+            const imgElement = document.createElement('img');
+            imgElement.src = '../' + photo; // Make sure the image path is correct
+            imgElement.classList.add('col-md-4', 'mb-4');
+            imgElement.classList.add('img-fluid');
+            imgElement.alt = 'Property Image';
+            
+            galleryContainer.appendChild(imgElement);
+        });
+    });
+});
